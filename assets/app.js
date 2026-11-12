@@ -131,7 +131,8 @@ async function getAllSpeciesList() {
     'species/褐樹蛙',
     'species/斯文豪氏赤蛙',
     'species/拉都希氏赤蛙',
-    'species/澤蛙'
+    'species/澤蛙',
+    'species/莫氏樹蛙'
   ];
 
   const keys = Array.from(new Set([...defaultOrder, ...speciesKeys]));
@@ -263,6 +264,32 @@ function getFrogAvatarSvg(speciesName) {
         <circle cx="49" cy="23" r="3.2" fill="#181714" />
       </svg>
     `;
+  } else if (speciesName.includes('莫氏樹蛙')) {
+    return `
+      <svg class="frog-avatar-svg" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="38" cy="42" rx="22" ry="19" fill="#2d9348" />
+        <ellipse cx="38" cy="46" rx="14" ry="11" fill="#fefae0" opacity="0.9" />
+        <circle cx="26" cy="24" r="8" fill="#2d9348" />
+        <circle cx="50" cy="24" r="8" fill="#2d9348" />
+        <circle cx="26" cy="23" r="6.2" fill="#e85d04" />
+        <circle cx="50" cy="23" r="6.2" fill="#e85d04" />
+        <circle cx="27" cy="23" r="3.2" fill="#1b120c" />
+        <circle cx="49" cy="23" r="3.2" fill="#1b120c" />
+        <circle cx="29" cy="21" r="1.3" fill="#ffffff" />
+        <circle cx="51" cy="21" r="1.3" fill="#ffffff" />
+        <path d="M19 46Q14 42 16 34" stroke="#2d9348" stroke-width="4.5" stroke-linecap="round" />
+        <circle cx="16" cy="33" r="3.2" fill="#217036" />
+        <path d="M57 46Q62 42 60 34" stroke="#2d9348" stroke-width="4.5" stroke-linecap="round" />
+        <circle cx="60" cy="33" r="3.2" fill="#217036" />
+        <path d="M18 52Q20 58 26 56" stroke="#d90429" stroke-width="4" stroke-linecap="round" />
+        <circle cx="21" cy="54" r="1.5" fill="#201010" />
+        <circle cx="24" cy="55" r="1.2" fill="#201010" />
+        <path d="M58 52Q56 58 50 56" stroke="#d90429" stroke-width="4" stroke-linecap="round" />
+        <circle cx="55" cy="54" r="1.5" fill="#201010" />
+        <circle cx="52" cy="55" r="1.2" fill="#201010" />
+        <path d="M32 37Q38 41 44 37" stroke="#12361a" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    `;
   } else {
     return `
       <svg class="frog-avatar-svg" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -302,32 +329,32 @@ function renderLiveProgressBanner() {
           <span class="pulse-text">LIVE · 台灣兩棲生態手帳持續連載中</span>
         </div>
         <div class="live-update-timestamp">
-          <span>⏱️ 最新手帳更新：2026-11-11（今日活躍）</span>
+          <span>⏱️ 最新手帳更新：2026-11-12（今日活躍）</span>
         </div>
       </div>
 
       <div class="progress-bar-container" onclick="document.getElementById('checklist36Section')?.scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;" title="點擊直接查看全台 36 種蛙類收錄打勾清單">
         <div class="progress-bar-labels">
           <span class="progress-label-left">🌱 台灣原生蛙類知識庫收錄進度</span>
-          <span class="progress-label-right"><strong>6 / 36 種</strong> (約 17%) · 點擊查看 36 種打勾清單 ↓</span>
+          <span class="progress-label-right"><strong>7 / 36 種</strong> (約 19%) · 點擊查看 36 種打勾清單 ↓</span>
         </div>
         <div class="progress-track">
-          <div class="progress-fill" style="width: 17%;">
+          <div class="progress-fill" style="width: 19%;">
             <span class="progress-frog-walker" title="小青蛙正在跳躍收錄中！">🐸</span>
           </div>
         </div>
       </div>
 
       <div class="live-stats-row">
-        <div class="stat-pill"><span class="pill-dot">🟢</span> 已收錄打勾 <strong>6 種</strong></div>
+        <div class="stat-pill"><span class="pill-dot">🟢</span> 已收錄打勾 <strong>7 種</strong></div>
         <div class="stat-pill" onclick="document.getElementById('checklist36Section')?.scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;" title="點擊瀏覽全台 36 種名冊"><span class="pill-dot">📋</span> 全台蛙類名冊 <strong>36 種</strong></div>
-        <div class="stat-pill"><span class="pill-dot">📚</span> 引用典藏來源 <strong>22 份</strong></div>
+        <div class="stat-pill"><span class="pill-dot">📚</span> 引用典藏來源 <strong>25 份</strong></div>
         <div class="stat-pill"><span class="pill-dot">⏳</span> 籌備收錄物種 <strong>2 種</strong></div>
       </div>
 
       <div class="live-ticker-bar">
         <span class="ticker-tag">📢 連載速報</span>
-        <span class="ticker-text">澤蛙正名與叉舌蛙科生態資料全面更新！確認一般類 (IUCN LC)、紋面縱斑、棒狀膚褶、3–10 月產浮膜卵與 0.026 秒「嘓嘓-」較勁對唱，首波 6 種蛙類全數核實完備！</span>
+        <span class="ticker-text">莫氏樹蛙（No.07）特有種正式收錄！確認一般類 (IUCN LC)、橘紅虹彩、大腿內側鮮紅黑斑（紅內褲）、火雞叫聲與低海拔至2500m高山廣布，全站已累計收錄 7 種蛙類！</span>
       </div>
     </div>
   `;
@@ -430,13 +457,13 @@ function renderFrogCardsHtml(speciesList) {
       </div>
 
       <div class="card-content">
-        <h3 class="card-frog-name">莫氏樹蛙</h3>
-        <div class="card-scientific-name">Rhacophorus moltrechti · 資料收集中</div>
-        <p class="card-summary">台灣特有種綠色樹蛙，虹彩橘紅、大腿內側黑斑與橘紅底色。即將透過 raw/ 匯入建檔。</p>
+        <h3 class="card-frog-name">面天樹蛙</h3>
+        <div class="card-scientific-name">Kurixalus idiootocus · 規劃收錄</div>
+        <p class="card-summary">體型嬌小，兩眼間有深色三角形斑，叫聲如短促哨音「嗶、嗶、嗶」。即將收錄。</p>
 
         <div class="upcoming-status-box">
-          <div class="upcoming-step"><span>📄</span> raw/ 原始資料整理中</div>
-          <div class="upcoming-step"><span>🔍</span> 正在查驗繁殖季節與鳴叫音檔</div>
+          <div class="upcoming-step"><span>📄</span> 棲地與叫聲特徵文獻收集</div>
+          <div class="upcoming-step"><span>💡</span> 預計新增至「蛙類辨識方法」</div>
         </div>
       </div>
 
@@ -454,7 +481,7 @@ function renderFrogCardsHtml(speciesList) {
       <div class="card-top-bar">
         <div class="card-badges">
           <span class="sticker-badge tag-upcoming">⏳ 調查籌備中</span>
-          <span class="sticker-badge tag-endemic">⭐ 台灣特有種</span>
+          <span class="sticker-badge tag-general">蟾蜍科</span>
         </div>
         <span class="card-stamp-num">NEXT</span>
       </div>
@@ -466,13 +493,13 @@ function renderFrogCardsHtml(speciesList) {
       </div>
 
       <div class="card-content">
-        <h3 class="card-frog-name">面天樹蛙</h3>
-        <div class="card-scientific-name">Kurixalus idiootocus · 規劃收錄</div>
-        <p class="card-summary">體型嬌小，兩眼間有深色三角形斑，叫聲如短促哨音「嗶、嗶、嗶」。即將收錄。</p>
+        <h3 class="card-frog-name">黑眶蟾蜍</h3>
+        <div class="card-scientific-name">Duttaphrynus melanostictus · 資料收集中</div>
+        <p class="card-summary">平地與田野最常見蟾蜍，具黑色眼眶與黑指甲，頭頂骨質脊棱與耳後腺。即將透過 raw/ 匯入建檔。</p>
 
         <div class="upcoming-status-box">
-          <div class="upcoming-step"><span>📄</span> 棲地與叫聲特徵文獻收集</div>
-          <div class="upcoming-step"><span>💡</span> 預計新增至「蛙類辨識方法」</div>
+          <div class="upcoming-step"><span>📄</span> raw/ 原始資料整理中</div>
+          <div class="upcoming-step"><span>🔍</span> 正在查驗生活史與鳴叫特性</div>
         </div>
       </div>
 
@@ -491,7 +518,7 @@ function renderFrogCardsHtml(speciesList) {
         <div class="section-title-wrap">
           <span class="section-stamp">FIELD COLLECTION · 蛙類卡牌手帳</span>
           <h2 class="section-heading">🐸 台灣蛙類觀察手帳卡牌</h2>
-          <p class="section-desc">已收錄 6 種常見與特有蛙類，下方亦列出目前正在調查籌備中的物種卡牌，點擊任一卡牌翻閱詳情。</p>
+          <p class="section-desc">已收錄 7 種常見與特有蛙類，下方亦列出目前正在調查籌備中的物種卡牌，點擊任一卡牌翻閱詳情。</p>
         </div>
         
         <div class="cards-filter-bar">
@@ -605,6 +632,17 @@ function renderLiveNotebookBox() {
               <div class="timeline-content">
                 <div class="timeline-meta">
                   <span class="meta-tag tag-new">TODAY 最新</span>
+                  2026-11-12 · 莫氏樹蛙 (No.07) 正式收錄與聲學數據更新 (25 份來源)
+                </div>
+                <div class="timeline-text">
+                  依據台灣兩棲類數位典藏（Froghome）、青蛙學堂與經濟部水利署臺北水源特定區環境教育學習中心，正式收錄第 7 種特有種樹蛙「<strong>莫氏樹蛙</strong>」（<em>Zhangixalus moltrechti</em>），確認張氏樹蛙屬、法定保育等級為一般類野生動物（2008 年由保育類調降，IUCN LC）；收錄體長 4–6 cm、橘紅虹彩、大腿內側鮮紅底色與醒目黑斑（「穿紅內褲的青蛙」嚇敵保護色）、體側老人斑、火雞叫聲「呱-阿呱呱呱呱」以及 1.902 秒鳴叫間隔與 1520 Hz 主頻聲學數據。
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-dot">🟢</span>
+              <div class="timeline-content">
+                <div class="timeline-meta">
                   2026-11-11 · 澤蛙正名、叉舌蛙科分類與生活史全面更新 (22 份來源 · 首波 6 種全數核實完備！)
                 </div>
                 <div class="timeline-text">
@@ -749,7 +787,11 @@ function renderLiveNotebookBox() {
             </label>
             <label class="check-item done">
               <span class="check-badge badge-done">已完成</span>
-              <span class="check-label">首波 6 種蛙類基本資料、生態照片與生活史收錄。</span>
+              <span class="check-label">7. 莫氏樹蛙：張樹蛙屬新分類、特有種、2008年降為一般類 (IUCN LC) 核實、橘紅虹彩、大腿內側黑斑與鮮紅底色（紅內褲）、火雞叫聲與全島至2500m廣布。</span>
+            </label>
+            <label class="check-item done">
+              <span class="check-badge badge-done">已完成</span>
+              <span class="check-label">已累計收錄 7 種核心蛙類（特有種達 6 種），生態照片與生活史完備。</span>
             </label>
           </div>
         </div>
@@ -757,7 +799,7 @@ function renderLiveNotebookBox() {
         <!-- 分頁 3：全台 36 種蛙類收錄打勾表 -->
         <div class="live-tab-pane" id="tab-all36">
           <div class="live-checklist">
-            <div class="checklist-category">📋 全台 36 種蛙類名錄與收錄進度（已收錄 6 種 / 待收錄 30 種）</div>
+            <div class="checklist-category">📋 全台 36 種蛙類名錄與收錄進度（已收錄 7 種 / 待收錄 29 種）</div>
             <div class="check-empty-hint" style="font-size: 0.88rem; color: #2d6b3a; background: #eef7f0; border-radius: 8px; padding: 0.6rem 0.9rem; margin-bottom: 0.65rem; border: 1px dashed #9cc5a1;">
               💡 <strong>點擊已打勾的物種</strong> 可直接翻閱獨立觀察手帳；亦可下滑至網頁中段瀏覽圖文卡牌版打勾清單。
             </div>
@@ -851,7 +893,7 @@ const TAIWAN_36_FROGS = [
   { name: '諸羅樹蛙', scientific: 'Zhangixalus arvalis', family: '樹蛙科', orderNum: 'No.01', uploaded: true, pageId: 'species/諸羅樹蛙', endemic: true, protect: '保育類 II 級', protectType: 'protected', desc: '平地竹林雨怪、體側白線、金色魚叉紋蝌蚪' },
   { name: '台北樹蛙', scientific: 'Zhangixalus taipeianus', family: '樹蛙科', orderNum: 'No.02', uploaded: true, pageId: 'species/台北樹蛙', endemic: true, protect: '保育類 III 級', protectType: 'protected', desc: '本土首度命名發表、冬季泥洞繁殖、虹膜金黃' },
   { name: '褐樹蛙', scientific: 'Buergeria robusta', family: '樹蛙科', orderNum: 'No.03', uploaded: true, pageId: 'species/褐樹蛙', endemic: true, protect: '一般類', protectType: 'general', desc: '溪樹蛙屬、T字雙色虹膜、雙三角斑、6690 Hz 高頻鳴叫' },
-  { name: '莫氏樹蛙', scientific: 'Zhangixalus moltrechti', family: '樹蛙科', orderNum: null, uploaded: false, upcoming: true, pageId: null, endemic: true, protect: '一般類', protectType: 'general', desc: '虹彩橘紅、大腿內側黑斑與鮮紅底色、廣布中高海拔' },
+  { name: '莫氏樹蛙', scientific: 'Zhangixalus moltrechti', family: '樹蛙科', orderNum: 'No.07', uploaded: true, pageId: 'species/莫氏樹蛙', endemic: true, protect: '一般類', protectType: 'general', desc: '虹彩橘紅、大腿內側黑斑與鮮紅底色（紅內褲）、廣布中高海拔至2500m' },
   { name: '面天樹蛙', scientific: 'Kurixalus idiootocus', family: '樹蛙科', orderNum: null, uploaded: false, upcoming: true, pageId: null, endemic: true, protect: '一般類', protectType: 'general', desc: '體型嬌小、兩眼間深色三角斑、短促如鳥哨音' },
   { name: '翡翠樹蛙', scientific: 'Zhangixalus prasinatus', family: '樹蛙科', orderNum: null, uploaded: false, pageId: null, endemic: true, protect: '保育類 II 級', protectType: 'protected', desc: '背部翠綠帶金黃眼鼻線、產白色泡沫卵、翡翠水庫代表種' },
   { name: '橙腹樹蛙', scientific: 'Zhangixalus aurantiventris', family: '樹蛙科', orderNum: null, uploaded: false, pageId: null, endemic: true, protect: '保育類 II 級', protectType: 'protected', desc: '腹部純橘紅無斑點、原始闊葉林樹冠層生活' },
