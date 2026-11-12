@@ -1,0 +1,2793 @@
+/* ==========================================================================
+   台灣蛙類圖鑑 — 清新手帳風樣式表 (assets/style.css)
+   視覺規範：清新手帳風、綠色調為主、圓角卡片、和紙膠帶、便利貼、青蛙生態圖徽、
+             連載進度看板、持續更新觀察筆記格、手帳探頭青蛙與小腳印裝飾
+   ========================================================================== */
+
+/* 1. 色票與設計系統 (Design Tokens) */
+:root {
+  /* 綠色調主色系 */
+  --green-primary: #346c3d;      /* 森林深綠：標題、主按鈕 */
+  --green-dark: #1e4526;         /* 濃郁墨綠：主文字高對比 */
+  --green-sage: #7ba681;         /* 鼠尾草綠：和紙膠帶、外框 */
+  --green-sage-light: #e6f1e6;   /* 淺鼠尾草：標籤底色 */
+  --green-mint-bg: #eff6ee;      /* 嫩芽薄荷：區塊背景 */
+  --green-border: #d4e5d1;       /* 柔和綠邊框 */
+  --green-olive: #607945;        /* 橄欖綠：次要標註 */
+  
+  /* 手帳桌面與紙張底色 */
+  --bg-desk: #f1f5ec;            /* 溫潤桌面底色 */
+  --dot-color: #d2e0cb;          /* 點點方格底紋色 */
+  --paper-main: #fdfefb;         /* 手帳內頁純淨紙色 */
+  --paper-card: #ffffff;         /* 卡片紙色 */
+  --paper-subtle: #f7faf5;       /* 柔和手帳區塊色 */
+  --paper-grid: #edf5eb;         /* 筆記格紋襯線 */
+  
+  /* 墨水文字層級 */
+  --ink: #233624;                /* 手帳墨綠文字 */
+  --ink-secondary: #485c49;      /* 次要說明 */
+  --ink-muted: #728773;          /* 淡註記、頁碼 */
+  
+  /* 手帳膠帶與便利貼 */
+  --tape-sage: rgba(142, 185, 150, 0.72);
+  --tape-olive: rgba(165, 189, 134, 0.72);
+  --tape-mint: rgba(160, 207, 180, 0.72);
+  --tape-yellow: rgba(246, 222, 134, 0.85);
+  
+  --sticky-bg: #fffce6;
+  --sticky-border: #f1e298;
+  --sticky-shadow: rgba(120, 100, 30, 0.12);
+  
+  /* 彩色貼紙標籤色票 */
+  --tag-endemic-bg: #fef4d8;
+  --tag-endemic-text: #785514;
+  --tag-protect-bg: #def2e3;
+  --tag-protect-text: #1a5b2c;
+  --tag-treefrog-bg: #e3f2e5;
+  --tag-treefrog-text: #235d2d;
+  --tag-ranid-bg: #e1eff8;
+  --tag-ranid-text: #1a5173;
+  --tag-dicroglossid-bg: #fdf3df;
+  --tag-dicroglossid-text: #735312;
+  --tag-general-bg: #edf2eb;
+  --tag-general-text: #3c5440;
+  --tag-upcoming-bg: #fdf3cf;
+  --tag-upcoming-text: #825a0a;
+  
+  /* 陰影與圓角 */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-card: 0 4px 16px rgba(35, 55, 35, 0.06);
+  --shadow-card-hover: 0 14px 28px rgba(35, 55, 35, 0.13);
+  --shadow-paper: 0 12px 36px rgba(30, 50, 30, 0.08), 0 2px 6px rgba(30, 50, 30, 0.03);
+}
+
+/* 2. 基礎排版與點點桌面 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-desk);
+  background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: 'Iansui', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--green-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--green-dark);
+}
+
+/* 3. 手帳封面頁首 (Header Cover) 與探頭青蛙 */
+header.cover {
+  position: relative;
+  text-align: center;
+  max-width: 1040px;
+  margin: 2.4rem auto 1.2rem;
+  padding: 2.3rem 1.5rem 1.8rem;
+  background: linear-gradient(135deg, #e7f0e4 0%, #d8ebd3 100%);
+  border-radius: var(--radius-lg);
+  border: 2px dashed #8bb590;
+  box-shadow: var(--shadow-card);
+}
+
+/* 趴在手帳封面邊緣探頭的可愛小青蛙 */
+.peeking-frog {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 5;
+  transition: transform 0.25s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.peeking-frog:hover {
+  transform: translateX(-50%) translateY(-6px) scale(1.08);
+}
+
+.peeking-frog-svg {
+  width: 78px;
+  height: 48px;
+  filter: drop-shadow(0 3px 5px rgba(25, 60, 30, 0.16));
+}
+
+/* 頂部和紙膠帶裝飾 */
+.tape {
+  position: absolute;
+  top: -12px;
+  width: 90px;
+  height: 26px;
+  background: var(--tape-sage);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  backdrop-filter: blur(1px);
+  clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 98% 96%, 96% 100%, 4% 100%, 0% 96%);
+}
+
+.tape-left {
+  left: 40px;
+  transform: rotate(-3.5deg);
+}
+
+.tape-right {
+  right: 40px;
+  transform: rotate(2.8deg);
+}
+
+.cover-kicker {
+  display: inline-block;
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: var(--green-olive);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.15rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid #c2dbbe;
+}
+
+header.cover h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+header.cover h1 a {
+  color: var(--green-dark);
+}
+
+header.cover h1 a:hover {
+  color: var(--green-primary);
+}
+
+.cover-sub {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  color: var(--ink-secondary);
+  letter-spacing: 0.05em;
+}
+
+/* 4. 主要版面格局 (Layout) */
+.layout {
+  display: flex;
+  gap: 1.8rem;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 3rem;
+  align-items: flex-start;
+}
+
+/* 手帳側標籤目錄 (Navigation Drawer / Sidebar) */
+details.toc {
+  flex: 0 0 240px;
+  background: var(--paper-main);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+details.toc summary {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  cursor: pointer;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px dashed var(--green-sage);
+  outline: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+details.toc summary::-webkit-details-marker {
+  display: none;
+}
+
+details.toc summary::after {
+  content: '📑';
+  font-size: 1rem;
+}
+
+.nav-journal-group {
+  margin-top: 1.1rem;
+}
+
+.nav-group-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-olive);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.35rem;
+  padding-left: 0.2rem;
+}
+
+.nav-item-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.55rem;
+  margin-bottom: 0.2rem;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-size: 0.94rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nav-item-link:hover {
+  background: var(--green-mint-bg);
+  color: var(--green-primary);
+  transform: translateX(3px);
+}
+
+.nav-item-link.active {
+  background: var(--green-sage-light);
+  color: var(--green-dark);
+  font-weight: 700;
+  border-left: 3px solid var(--green-primary);
+}
+
+.nav-item-bullet {
+  font-size: 0.85rem;
+}
+
+.nav-item-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-side-status-box {
+  margin-top: 1.4rem;
+  padding: 0.85rem 0.75rem;
+  background: linear-gradient(135deg, #f2f8f0 0%, #e9f4e8 100%);
+  border: 1.5px dashed #a2c6a0;
+  border-radius: var(--radius-sm);
+}
+
+.side-pulse-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin-bottom: 0.3rem;
+}
+
+.side-live-desc {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+
+/* 5. 手帳主內容白紙頁 (Main Paper) */
+main.page {
+  flex: 1;
+  min-width: 0;
+  background: var(--paper-main);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 2.4rem 3rem;
+  box-shadow: var(--shadow-paper);
+  position: relative;
+}
+
+/* 頁面頂端和紙膠帶 */
+.journal-washi-tape {
+  position: absolute;
+  height: 24px;
+  background: var(--tape-sage);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 98% 96%, 96% 100%, 4% 100%, 0% 96%);
+}
+
+.tape-top-center {
+  top: -12px;
+  left: 50%;
+  width: 120px;
+  transform: translateX(-50%) rotate(-0.8deg);
+}
+
+.tape-top-left {
+  top: -12px;
+  left: 36px;
+  width: 85px;
+  transform: rotate(-2.5deg);
+}
+
+.tape-top-right {
+  top: -12px;
+  right: 36px;
+  width: 85px;
+  transform: rotate(2deg);
+}
+
+/* 青蛙小腳印裝飾分隔線 */
+.frog-footprints {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 2.4rem 0 2rem;
+  opacity: 0.72;
+  user-select: none;
+  color: var(--green-sage);
+  font-size: 1.05rem;
+}
+
+.foot-pad {
+  display: inline-block;
+  transform: rotate(15deg);
+}
+
+.foot-pad:nth-child(2) {
+  transform: rotate(-10deg) translateY(-3px);
+}
+
+.foot-pad:nth-child(3) {
+  transform: rotate(18deg) translateY(-1px);
+}
+
+.foot-frog {
+  font-size: 1.25rem;
+  display: inline-block;
+  animation: frog-hop 2.4s infinite ease-in-out;
+}
+
+@keyframes frog-hop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px) rotate(6deg); }
+}
+
+/* ==========================================================================
+   6. 手帳連載即時看板 (Live Progress Banner)
+   ========================================================================== */
+.live-progress-banner {
+  background: linear-gradient(135deg, #eaf4e7 0%, #ddf0db 100%);
+  border: 2px dashed #82ab87;
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 14px rgba(35, 65, 35, 0.06);
+}
+
+.progress-banner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pulse-indicator-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #b2d5b6;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.pulse-text {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+.live-update-timestamp {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-olive);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+}
+
+/* 進度條容器與刻度 */
+.progress-bar-container {
+  margin-bottom: 0.9rem;
+}
+
+.progress-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+
+.progress-label-left {
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+.progress-label-right strong {
+  color: var(--green-primary);
+  font-size: 0.95rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 14px;
+  background: #d4e8cf;
+  border-radius: 10px;
+  overflow: visible;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ea35e 0%, #2f793d 100%);
+  border-radius: 10px;
+  position: relative;
+  transition: width 0.8s ease;
+}
+
+.progress-frog-walker {
+  position: absolute;
+  right: -10px;
+  top: -8px;
+  font-size: 1.15rem;
+  animation: frog-walk 1.6s infinite ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes frog-walk {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px) rotate(8deg); }
+}
+
+/* 狀態膠囊行 */
+.live-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.stat-pill {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #c2dbbe;
+  border-radius: 14px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8rem;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stat-pill strong {
+  color: var(--green-dark);
+}
+
+/* 速報列 */
+.live-ticker-bar {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #b7d6b4;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.ticker-tag {
+  font-weight: 700;
+  color: #7b5711;
+  background: #fbf3cf;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.ticker-text {
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   7. 持續更新中的觀察筆記格 (Live Field Scratchpad & Activity Notepad)
+   ========================================================================== */
+.live-notebook-section {
+  position: relative;
+  background-color: var(--paper-main);
+  background-image: 
+    linear-gradient(var(--paper-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-grid) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border: 2px solid #b7d6b4;
+  border-radius: var(--radius-lg);
+  padding: 1.8rem 1.8rem 1.6rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 8px 24px rgba(35, 65, 35, 0.08);
+}
+
+/* 筆記格頂部和紙膠帶 (帶印刷文字) */
+.live-notebook-tape {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0.6deg);
+  width: 175px;
+  height: 28px;
+  background: var(--tape-yellow);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 98% 96%, 96% 100%, 4% 100%, 0% 96%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.live-notebook-tape span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #634305;
+}
+
+.live-notebook-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 2px dashed #c0d8bd;
+}
+
+.live-kicker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.live-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2ea844;
+  display: inline-block;
+  box-shadow: 0 0 0 rgba(46, 168, 68, 0.4);
+  animation: pulse-live 1.8s infinite;
+}
+
+@keyframes pulse-live {
+  0% { box-shadow: 0 0 0 0 rgba(46, 168, 68, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(46, 168, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 168, 68, 0); }
+}
+
+.live-kicker {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--green-olive);
+}
+
+.live-badge-glow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #2ea844;
+  color: #ffffff;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  letter-spacing: 0.05em;
+}
+
+.live-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+.live-stamp-tag {
+  flex-shrink: 0;
+}
+
+.live-stamp-text {
+  display: inline-block;
+  border: 1.5px dashed #7fa984;
+  color: #436d47;
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  background: rgba(230, 243, 230, 0.5);
+  transform: rotate(-3deg);
+}
+
+.notepad-tracks-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  color: var(--green-olive);
+  margin-bottom: 0.9rem;
+}
+
+.track-feet {
+  font-size: 0.95rem;
+}
+
+.live-tabs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.live-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1.5px solid var(--green-border);
+  color: var(--ink-secondary);
+  padding: 0.4rem 0.95rem;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-sage);
+}
+
+.live-tab-btn:hover {
+  background: var(--green-mint-bg);
+  color: var(--green-dark);
+  border-color: var(--green-sage);
+}
+
+.live-tab-btn.active {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+  box-shadow: 0 2px 6px rgba(45, 95, 50, 0.2);
+}
+
+.live-tab-btn.active .tab-indicator-dot {
+  background: #ffffff;
+}
+
+.live-tab-pill {
+  font-size: 0.7rem;
+  background: #fbf3cf;
+  color: #7b5814;
+  padding: 0.05rem 0.4rem;
+  border-radius: 10px;
+}
+
+.live-tab-btn.active .live-tab-pill {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.live-tab-pane {
+  display: none;
+}
+
+.live-tab-pane.active {
+  display: block;
+  animation: fade-in 0.25s ease-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 分頁 1：時間軸更新清單 (內容過長時啟用滑動滾輪) */
+.live-timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 330px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.6rem;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.2px solid #dce8d6;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+}
+
+.timeline-item.item-latest {
+  border-left: 4px solid var(--green-primary);
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(35, 65, 35, 0.05);
+}
+
+.meta-tag.tag-new {
+  background: #346c3d;
+  color: #ffffff;
+  padding: 0.08rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-right: 0.35rem;
+}
+
+.timeline-dot {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.timeline-meta {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--green-olive);
+  margin-bottom: 0.2rem;
+}
+
+.timeline-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+/* 分頁 2：進行中待查清單 (內容過長時啟用滑動滾輪) */
+.live-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-height: 330px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.6rem;
+}
+
+.checklist-category {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-olive);
+  letter-spacing: 0.05em;
+  margin-top: 0.3rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.2px solid #dce8d6;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.95rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.check-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.badge-working {
+  background: #fdf1cd;
+  color: #825b0b;
+}
+
+.badge-prep {
+  background: #e2f1f7;
+  color: #175373;
+}
+
+.badge-done {
+  background: #e3f2e4;
+  color: #20612c;
+}
+
+.check-item.done {
+  background: #f6faf4;
+  border-color: #d2e4cf;
+  opacity: 0.85;
+}
+
+/* 分頁 3：即時隨手觀察筆記格 (Scratchpad) */
+.scratchpad-box {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid #c2dbbe;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.scratchpad-tip {
+  font-size: 0.86rem;
+  color: var(--green-olive);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.scratchpad-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: #fafcf8;
+  border: 1.5px solid #d4e5d1;
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.95rem;
+  font-family: inherit;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scratchpad-textarea:focus {
+  border-color: var(--green-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(52, 108, 61, 0.12);
+}
+
+.scratchpad-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.7rem;
+  font-size: 0.84rem;
+}
+
+.scratchpad-status {
+  color: var(--green-olive);
+  font-weight: 500;
+}
+
+.scratchpad-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.notepad-btn {
+  background: var(--green-mint-bg);
+  border: 1px solid var(--green-border);
+  color: var(--green-dark);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notepad-btn:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+.btn-clear {
+  background: #fbf0ee;
+  border-color: #eed0cb;
+  color: #8c3b31;
+}
+
+.btn-clear:hover {
+  background: #8c3b31;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   8. 蛙類卡牌網格區塊 (Frog Cards Section)
+   ========================================================================== */
+.frog-cards-section {
+  margin-bottom: 2.5rem;
+}
+
+.cards-section-header {
+  margin-bottom: 1.8rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed #cfe0cd;
+}
+
+.section-stamp {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--green-olive);
+  background: var(--green-mint-bg);
+  padding: 0.15rem 0.65rem;
+  border-radius: 12px;
+  border: 1px solid #c8dbc5;
+  margin-bottom: 0.4rem;
+}
+
+.section-heading {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.75rem;
+  color: var(--green-dark);
+  letter-spacing: 0.05em;
+}
+
+.section-desc {
+  margin: 0 0 1.2rem;
+  color: var(--ink-secondary);
+  font-size: 0.98rem;
+}
+
+/* 標籤分類篩選列 */
+.cards-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-pill {
+  border: 1.5px solid var(--green-border);
+  background: var(--paper-card);
+  color: var(--ink-secondary);
+  padding: 0.35rem 0.95rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.22s ease;
+}
+
+.filter-pill:hover {
+  background: var(--green-mint-bg);
+  color: var(--green-dark);
+  border-color: var(--green-sage);
+}
+
+.filter-pill.active {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+  box-shadow: 0 2px 8px rgba(45, 95, 50, 0.25);
+}
+
+/* 卡牌網格排版 */
+.frog-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+  gap: 1.8rem;
+  margin-top: 1.4rem;
+}
+
+/* 個別蛙類卡片 (Frog Card) */
+.frog-card {
+  position: relative;
+  background: var(--paper-card);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.25rem 1.2rem;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.frog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--green-sage);
+}
+
+/* 卡片上方和紙膠帶 */
+.card-washi-tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 82px;
+  height: 22px;
+  background: var(--tape-sage);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 98% 96%, 96% 100%, 4% 100%, 0% 96%);
+}
+
+.frog-card:nth-child(2n) .card-washi-tape {
+  background: var(--tape-olive);
+}
+
+.frog-card:nth-child(3n) .card-washi-tape {
+  background: var(--tape-yellow);
+}
+
+/* 調查籌備中卡片樣式 (Coming Soon In-Progress Cards) */
+.card-upcoming {
+  border: 2px dashed #9bc19f;
+  background: linear-gradient(135deg, #fbfef9 0%, #f3f8f1 100%);
+  opacity: 0.94;
+}
+
+.card-upcoming:hover {
+  border-color: var(--green-primary);
+  background: #ffffff;
+}
+
+.tape-upcoming {
+  background: var(--tape-yellow);
+  width: 110px;
+}
+
+.tag-upcoming {
+  background: var(--tag-upcoming-bg);
+  color: var(--tag-upcoming-text);
+  border: 1px dashed #d5b555;
+}
+
+.avatar-upcoming-ring {
+  background: radial-gradient(circle, #fbfdf9 0%, #e2efe0 100%);
+  border: 2px dashed #82a884;
+}
+
+.avatar-upcoming-frog {
+  font-size: 2.2rem;
+  opacity: 0.75;
+  animation: frog-pulse 2s infinite ease-in-out;
+}
+
+@keyframes frog-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.upcoming-status-box {
+  background: #f7faf5;
+  border: 1px dashed #c0d8bd;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.upcoming-step {
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-upcoming {
+  background: #f5f9f2;
+  color: var(--green-dark);
+  border-color: #bcdbc0;
+}
+
+.card-upcoming:hover .btn-upcoming {
+  background: var(--green-sage-light);
+  color: var(--green-dark);
+  border-color: var(--green-primary);
+}
+
+/* 卡片頂部欄 (標籤 + 編號) */
+.card-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.sticker-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.tag-treefrog {
+  background: var(--tag-treefrog-bg);
+  color: var(--tag-treefrog-text);
+}
+
+.tag-ranid {
+  background: var(--tag-ranid-bg);
+  color: var(--tag-ranid-text);
+}
+
+.tag-dicroglossid {
+  background: var(--tag-dicroglossid-bg);
+  color: var(--tag-dicroglossid-text);
+}
+
+.tag-endemic {
+  background: var(--tag-endemic-bg);
+  color: var(--tag-endemic-text);
+}
+
+.tag-protect {
+  background: var(--tag-protect-bg);
+  color: var(--tag-protect-text);
+}
+
+.tag-general {
+  background: var(--tag-general-bg);
+  color: var(--tag-general-text);
+}
+
+.card-stamp-num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  letter-spacing: 0.08em;
+}
+
+/* 卡片頭像圓框 (Avatar Ring) */
+.card-avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0 1rem;
+}
+
+.avatar-nature-ring {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f3f9f1 0%, #d8ebd6 100%);
+  border: 2px dashed #9bc19f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+  transition: transform 0.25s ease;
+}
+
+.frog-card:hover .avatar-nature-ring {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.frog-avatar-svg {
+  width: 68px;
+  height: 68px;
+}
+
+/* 卡片內容文案 */
+.card-content {
+  flex: 1;
+}
+
+.card-frog-name {
+  margin: 0 0 0.2rem;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.card-frog-name a {
+  color: var(--green-dark);
+}
+
+.frog-card:hover .card-frog-name a {
+  color: var(--green-primary);
+}
+
+.card-scientific-name {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--ink-secondary);
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.card-summary {
+  font-size: 0.92rem;
+  color: var(--ink);
+  line-height: 1.6;
+  margin: 0 0 1rem;
+  min-height: 2.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 卡片特徵膠囊群 */
+.card-traits-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--paper-subtle);
+  border: 1px solid #dce8d6;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.trait-capsule {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+}
+
+.trait-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.trait-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trait-text strong {
+  color: var(--green-dark);
+}
+
+/* 卡片底部行動按鈕 */
+.card-footer {
+  margin-top: auto;
+}
+
+.card-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: var(--green-mint-bg);
+  color: var(--green-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 1.5px solid var(--green-border);
+  transition: all 0.22s ease;
+}
+
+.btn-frog-icon {
+  font-size: 0.95rem;
+  transition: transform 0.22s ease;
+}
+
+.card-action-btn:hover,
+.frog-card:hover .card-action-btn {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+}
+
+.frog-card:hover .btn-frog-icon {
+  transform: translateY(-2px);
+}
+
+.btn-arrow {
+  transition: transform 0.22s ease;
+}
+
+.frog-card:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   9. 物種獨立手帳頁面 (Species Journal Page)
+   ========================================================================== */
+.species-journal-page {
+  position: relative;
+}
+
+.species-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1.5px dashed var(--green-border);
+}
+
+.nav-back-cards {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--green-primary);
+  background: var(--green-mint-bg);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid var(--green-border);
+  transition: all 0.2s ease;
+}
+
+.nav-back-cards:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+  transform: translateX(-3px);
+}
+
+.journal-category-stamp {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--green-olive);
+}
+
+/* 物種 Header */
+.species-header {
+  margin-bottom: 1.6rem;
+}
+
+.species-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.title-frog-prefix {
+  font-size: 1.8rem;
+  margin-right: 0.3rem;
+  vertical-align: middle;
+}
+
+.species-main-title {
+  margin: 0;
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  letter-spacing: 0.08em;
+}
+
+.species-scientific-sub {
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--green-olive);
+  margin-top: 0.2rem;
+}
+
+.species-species-badge {
+  flex-shrink: 0;
+}
+
+.badge-avatar-circle {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f3f9f1 0%, #d8ebd6 100%);
+  border: 2px dashed #82a886;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(35, 65, 35, 0.08);
+}
+
+.species-tags-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.9rem;
+}
+
+.journal-sticker {
+  display: inline-block;
+  padding: 0.22rem 0.75rem;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.journal-date-badge {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  margin-left: auto;
+}
+
+/* 一段話導言摘要 Callout */
+.species-intro-callout {
+  background: linear-gradient(135deg, #f2f8f0 0%, #e6f2e4 100%);
+  border-left: 4px solid var(--green-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.callout-leaf-accent {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-olive);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.intro-paragraph {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--ink);
+}
+
+/* 基本資料 6 宮格 (Profile Spec Grid) */
+.section-badge-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 1.28rem;
+  color: var(--green-dark);
+  margin: 1.8rem 0 1rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--green-sage-light);
+}
+
+.spec-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.spec-stat-card {
+  background: var(--paper-card);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-md);
+  padding: 0.95rem 1.1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.spec-stat-wide {
+  grid-column: 1 / -1;
+}
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+
+.stat-icon {
+  font-size: 1rem;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-olive);
+  letter-spacing: 0.04em;
+}
+
+.stat-value {
+  font-size: 0.98rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.value-verify {
+  display: inline-block;
+  background: #fbf3cf;
+  color: #7b5814;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* 辨識特徵筆記盒 (內容過長時啟用滑動滾輪) */
+.journal-traits-box {
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.8rem;
+  max-height: 280px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 1.2rem;
+}
+
+.journal-traits-box ul {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.journal-traits-box li {
+  margin-bottom: 0.6rem;
+  line-height: 1.7;
+}
+
+.journal-traits-box li::marker {
+  color: var(--green-primary);
+}
+
+/* 雙欄生態筆記 (鳴叫 + 繁殖生活史) */
+.journal-dual-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.journal-sub-card {
+  position: relative;
+  background: var(--paper-card);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.3rem;
+  box-shadow: var(--shadow-card);
+}
+
+.journal-sub-card .section-badge-title {
+  margin-top: 0;
+  font-size: 1.12rem;
+}
+
+.washi-tape-mini {
+  position: absolute;
+  top: -9px;
+  left: 24px;
+  width: 60px;
+  height: 18px;
+  clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 98% 96%, 96% 100%, 4% 100%, 0% 96%);
+}
+
+.tape-mint {
+  background: var(--tape-mint);
+  transform: rotate(-2deg);
+}
+
+.tape-sage {
+  background: var(--tape-sage);
+  transform: rotate(1.5deg);
+}
+
+.note-body {
+  font-size: 0.95rem;
+  color: var(--ink);
+  line-height: 1.7;
+  max-height: 260px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.8rem;
+}
+
+.note-body p {
+  margin: 0 0 0.6rem;
+}
+
+/* 相關手帳頁面 */
+.related-pills-box {
+  max-height: 140px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.5rem;
+}
+
+.related-pills-box ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.related-pills-box li a {
+  display: inline-block;
+  background: var(--green-mint-bg);
+  border: 1px solid var(--green-border);
+  color: var(--green-primary);
+  padding: 0.35rem 0.9rem;
+  border-radius: 16px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.related-pills-box li a:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+/* 10. 待查證黃色便利貼 (依 AGENTS.md 規範) */
+.journal-sticky-note {
+  position: relative;
+  background: var(--sticky-bg);
+  border: 1px solid var(--sticky-border);
+  border-radius: var(--radius-sm);
+  padding: 1.3rem 1.5rem;
+  margin: 2.2rem 0;
+  box-shadow: 3px 6px 16px var(--sticky-shadow);
+  transform: rotate(-0.8deg);
+  transition: transform 0.25s ease;
+}
+
+.journal-sticky-note:hover {
+  transform: rotate(0deg) scale(1.01);
+}
+
+.sticky-pin {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  font-size: 1.25rem;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+}
+
+.sticky-tape {
+  position: absolute;
+  top: -8px;
+  right: 25px;
+  width: 55px;
+  height: 16px;
+  background: var(--tape-yellow);
+  clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 98% 96%, 96% 100%, 4% 100%, 0% 96%);
+}
+
+.sticky-title {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #6e5010;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sticky-content {
+  font-size: 0.92rem;
+  color: #4f3b10;
+  line-height: 1.7;
+  max-height: 200px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.8rem;
+}
+
+.sticky-content ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.sticky-content li {
+  margin-bottom: 0.35rem;
+}
+
+/* 11. 底部前後物種導航器 (Pager) */
+.species-footer-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px dashed var(--green-border);
+}
+
+.pager-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--paper-card);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1rem;
+  color: var(--ink);
+  transition: all 0.22s ease;
+  min-width: 150px;
+}
+
+.pager-btn:hover {
+  border-color: var(--green-sage);
+  background: var(--green-mint-bg);
+  color: var(--green-primary);
+  transform: translateY(-2px);
+}
+
+.pager-arrow {
+  font-size: 1.2rem;
+  color: var(--green-primary);
+}
+
+.pager-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pager-hint {
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+}
+
+.pager-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.pager-btn-center {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  background: var(--green-sage-light);
+  padding: 0.5rem 1.1rem;
+  border-radius: 20px;
+  border: 1px solid var(--green-border);
+  transition: all 0.2s ease;
+}
+
+.pager-btn-center:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+.pager-placeholder {
+  min-width: 150px;
+}
+
+/* 12. 一般 Markdown 標題、表格與引言樣式 */
+.journal-markdown-body h1,
+.general-journal-page h1 {
+  font-size: 2.1rem;
+  color: var(--green-dark);
+  border-bottom: 2px solid var(--green-sage-light);
+  padding-bottom: 0.4rem;
+  margin-top: 0;
+}
+
+.journal-markdown-body h2,
+.general-journal-page h2 {
+  font-size: 1.4rem;
+  color: var(--green-dark);
+  border-bottom: 1.5px dashed var(--green-border);
+  padding-bottom: 0.35rem;
+  margin-top: 2rem;
+}
+
+.journal-meta-bar {
+  font-size: 0.88rem;
+  color: var(--green-olive);
+  background: var(--green-mint-bg);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--green-border);
+}
+
+main table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  background: var(--paper-card);
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+main th {
+  background: var(--green-sage-light);
+  color: var(--green-dark);
+  font-weight: 700;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--green-border);
+  text-align: left;
+}
+
+main td {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--green-border);
+  font-size: 0.94rem;
+  color: var(--ink);
+}
+
+main tr:nth-child(even) td {
+  background: #fbfdf9;
+}
+
+main blockquote {
+  position: relative;
+  margin: 1.4rem 0;
+  padding: 0.9rem 1.3rem;
+  background: #f5f9f2;
+  border-left: 4px solid var(--green-sage);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--ink-secondary);
+  font-size: 0.95rem;
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ==========================================================================
+   清新手帳風自訂滾輪規範 (Hand-Journal Custom Scrollbars)
+   規範：柔和鼠尾草綠、細緻薄型、圓角滑動軌道，支援 WebKit、Blink 及 Firefox
+   ========================================================================== */
+.journal-scrollable,
+.journal-traits-box,
+.note-body,
+.sources-citation-body,
+.ecology-box,
+.live-timeline-list,
+.live-checklist,
+.sticky-content,
+.table-scroll-wrap,
+.related-pills-box,
+.scratchpad-textarea,
+details.toc,
+main blockquote,
+main pre {
+  scrollbar-width: thin;
+  scrollbar-color: #8fb995 rgba(220, 235, 218, 0.45);
+}
+
+.journal-scrollable::-webkit-scrollbar,
+.journal-traits-box::-webkit-scrollbar,
+.note-body::-webkit-scrollbar,
+.sources-citation-body::-webkit-scrollbar,
+.ecology-box::-webkit-scrollbar,
+.live-timeline-list::-webkit-scrollbar,
+.live-checklist::-webkit-scrollbar,
+.sticky-content::-webkit-scrollbar,
+.table-scroll-wrap::-webkit-scrollbar,
+.related-pills-box::-webkit-scrollbar,
+.scratchpad-textarea::-webkit-scrollbar,
+details.toc::-webkit-scrollbar,
+main blockquote::-webkit-scrollbar,
+main pre::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.journal-scrollable::-webkit-scrollbar-track,
+.journal-traits-box::-webkit-scrollbar-track,
+.note-body::-webkit-scrollbar-track,
+.sources-citation-body::-webkit-scrollbar-track,
+.ecology-box::-webkit-scrollbar-track,
+.live-timeline-list::-webkit-scrollbar-track,
+.live-checklist::-webkit-scrollbar-track,
+.sticky-content::-webkit-scrollbar-track,
+.table-scroll-wrap::-webkit-scrollbar-track,
+.related-pills-box::-webkit-scrollbar-track,
+.scratchpad-textarea::-webkit-scrollbar-track,
+details.toc::-webkit-scrollbar-track,
+main blockquote::-webkit-scrollbar-track,
+main pre::-webkit-scrollbar-track {
+  background: rgba(225, 238, 222, 0.5);
+  border-radius: 8px;
+}
+
+.journal-scrollable::-webkit-scrollbar-thumb,
+.journal-traits-box::-webkit-scrollbar-thumb,
+.note-body::-webkit-scrollbar-thumb,
+.sources-citation-body::-webkit-scrollbar-thumb,
+.ecology-box::-webkit-scrollbar-thumb,
+.live-timeline-list::-webkit-scrollbar-thumb,
+.live-checklist::-webkit-scrollbar-thumb,
+.sticky-content::-webkit-scrollbar-thumb,
+.table-scroll-wrap::-webkit-scrollbar-thumb,
+.related-pills-box::-webkit-scrollbar-thumb,
+.scratchpad-textarea::-webkit-scrollbar-thumb,
+details.toc::-webkit-scrollbar-thumb,
+main blockquote::-webkit-scrollbar-thumb,
+main pre::-webkit-scrollbar-thumb {
+  background: #8fb995;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background 0.2s ease;
+}
+
+.journal-scrollable::-webkit-scrollbar-thumb:hover,
+.journal-traits-box::-webkit-scrollbar-thumb:hover,
+.note-body::-webkit-scrollbar-thumb:hover,
+.sources-citation-body::-webkit-scrollbar-thumb:hover,
+.ecology-box::-webkit-scrollbar-thumb:hover,
+.live-timeline-list::-webkit-scrollbar-thumb:hover,
+.live-checklist::-webkit-scrollbar-thumb:hover,
+.sticky-content::-webkit-scrollbar-thumb:hover,
+.table-scroll-wrap::-webkit-scrollbar-thumb:hover,
+.related-pills-box::-webkit-scrollbar-thumb:hover,
+.scratchpad-textarea::-webkit-scrollbar-thumb:hover,
+details.toc::-webkit-scrollbar-thumb:hover,
+main blockquote::-webkit-scrollbar-thumb:hover,
+main pre::-webkit-scrollbar-thumb:hover {
+  background: var(--green-primary);
+}
+
+/* 內容過長滑動滾輪標示貼紙 (Scroll Hint Badge) */
+.scroll-badge-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--green-olive);
+  background: var(--green-sage-light);
+  border: 1px solid #c8dbc5;
+  padding: 0.12rem 0.55rem;
+  border-radius: 12px;
+  margin-left: 0.6rem;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+/* 表格專用手帳滾動容器 (支援水平與垂直滑動滾輪，標頭置頂) */
+.table-scroll-wrap {
+  width: 100%;
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  border: 1.5px solid var(--green-border);
+  border-radius: var(--radius-sm);
+  background: var(--paper-card);
+  box-shadow: var(--shadow-card);
+  overscroll-behavior: contain;
+}
+
+.table-scroll-wrap table {
+  width: 100%;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.table-scroll-wrap th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--green-sage-light);
+  box-shadow: 0 1px 0 var(--green-border);
+}
+
+main blockquote p {
+  margin: 0;
+}
+
+.journal-loading-card,
+.journal-error-card {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--ink-secondary);
+}
+
+.loading-frog-icon {
+  font-size: 2.8rem;
+  animation: bounce 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12px); }
+}
+
+.journal-error-card {
+  background: #fffcee;
+  border: 1.5px dashed #f0dc8a;
+  border-radius: var(--radius-md);
+}
+
+/* 13. 頁尾 (Footer) */
+footer {
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem 2rem;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   14. 資料來源標註與生態危機手帳卡片
+   ========================================================================== */
+.sources-citation-section {
+  position: relative;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sources-citation-card {
+  background: #fbf9f4;
+  border: 1.5px solid #dcd3c3;
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 2px 3px 0 rgba(100, 85, 70, 0.06);
+  position: relative;
+}
+
+.sources-card-hint {
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  background: #f3ede2;
+  border-left: 3.5px solid var(--green-primary);
+  padding: 0.55rem 0.85rem;
+  border-radius: 6px;
+  margin-bottom: 1.1rem;
+  line-height: 1.55;
+}
+
+.sources-citation-body {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--ink-primary);
+  max-height: 260px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 1.2rem;
+}
+
+.sources-citation-body ol,
+.sources-citation-body ul {
+  padding-left: 1.4rem;
+  margin: 0.4rem 0;
+}
+
+.sources-citation-body li {
+  margin-bottom: 0.6rem;
+}
+
+.sources-citation-body strong {
+  color: var(--green-dark);
+}
+
+.sources-citation-body a {
+  color: var(--green-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  transition: color 0.18s ease;
+}
+
+.sources-citation-body a:hover {
+  color: var(--green-primary);
+  text-decoration-style: solid;
+}
+
+.ecology-box {
+  background: #fdfdf9;
+  border-left: 4px solid #cca352;
+  padding: 1.2rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  max-height: 260px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 1.2rem;
+}
+
+.ecology-box ul {
+  padding-left: 1.3rem;
+  margin: 0.4rem 0;
+}
+
+.ecology-box li {
+  margin-bottom: 0.65rem;
+}
+
+.ecology-box strong {
+  color: #7d5917;
+}
+
+.washi-tape-mini.tape-kraft {
+  background: rgba(210, 180, 140, 0.65);
+}
+
+/* ==========================================================================
+   15. 蛙類生態照片與手帳拍立得寫真框 (Polaroid Photo Card & Real Avatars)
+   ========================================================================== */
+.avatar-nature-ring.has-real-photo {
+  position: relative;
+  background: #ffffff;
+  padding: 3px;
+  border: 2px solid var(--green-border);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.avatar-photo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-mini-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 28px;
+  height: 28px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 1.5px solid var(--green-border);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-mini-badge .frog-avatar-svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* 手帳拍立得照片卡片 (Polaroid Photo Frame) */
+.journal-polaroid-frame {
+  margin: 1.6rem auto 2rem;
+  max-width: 640px;
+  background: #ffffff;
+  border: 1.5px solid #ded6c5;
+  border-radius: 12px;
+  padding: 0.95rem 0.95rem 1.15rem;
+  box-shadow: 0 4px 16px rgba(75, 66, 56, 0.09), 2px 3px 0 rgba(100, 85, 70, 0.05);
+  position: relative;
+  transform: rotate(-0.5deg);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.journal-polaroid-frame:hover {
+  transform: rotate(0deg) scale(1.01);
+  box-shadow: 0 6px 20px rgba(75, 66, 56, 0.12), 2px 4px 0 rgba(100, 85, 70, 0.08);
+}
+
+.polaroid-pin {
+  position: absolute;
+  top: -12px;
+  right: 22px;
+  font-size: 1.35rem;
+  z-index: 3;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+
+.polaroid-washi-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0.8deg);
+  width: 90px;
+  height: 20px;
+  background: rgba(156, 197, 161, 0.78);
+  clip-path: polygon(0% 5%, 5% 0%, 95% 0%, 100% 5%, 98% 95%, 95% 100%, 5% 100%, 0% 95%);
+  z-index: 2;
+}
+
+.polaroid-img-wrap {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f2f6f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 400px;
+}
+
+.polaroid-img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.polaroid-caption-bar {
+  margin-top: 0.85rem;
+  padding: 0.2rem 0.35rem 0;
+}
+
+.polaroid-caption-text {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--green-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.polaroid-source-credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  color: var(--ink-secondary);
+  background: #f8f5ee;
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  border: 1px dashed #dcd3c3;
+  line-height: 1.45;
+}
+
+.source-credit-icon {
+  font-size: 0.92rem;
+}
+
+.source-credit-label strong {
+  color: var(--ink-primary);
+}
+
+.source-license-pill {
+  background: var(--green-primary);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 10px;
+  letter-spacing: 0.04em;
+}
+
+/* Markdown 內嵌圖片樣式美化 */
+.journal-markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  margin: 1rem 0 0.3rem;
+}
+
+/* 16. 響應式手機排版 (Mobile Responsive) */
+@media (max-width: 820px) {
+  .layout {
+    flex-direction: column;
+    padding: 0.5rem 0.8rem 2rem;
+  }
+  
+  details.toc {
+    flex: none;
+    width: 100%;
+    position: static;
+    max-height: none;
+  }
+
+  main.page {
+    padding: 1.6rem 1.2rem 2.2rem;
+  }
+
+  header.cover {
+    margin: 1.8rem 0.8rem 0.8rem;
+    padding: 1.8rem 1rem 1.4rem;
+  }
+
+  header.cover h1 {
+    font-size: 1.8rem;
+  }
+
+  .tape-left { left: 16px; width: 70px; }
+  .tape-right { right: 16px; width: 70px; }
+
+  .peeking-frog {
+    top: -32px;
+  }
+
+  .peeking-frog-svg {
+    width: 65px;
+    height: 40px;
+  }
+
+  .live-progress-banner {
+    padding: 1rem 1.1rem;
+  }
+
+  .progress-banner-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .live-notebook-section {
+    padding: 1.4rem 1.1rem 1.2rem;
+  }
+
+  .live-title {
+    font-size: 1.35rem;
+  }
+
+  .live-notebook-header {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .notepad-tracks-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .frog-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .journal-dual-columns {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .species-main-title {
+    font-size: 1.8rem;
+  }
+
+  .species-footer-pager {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .pager-btn,
+  .pager-placeholder {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+
+/* =========================================================
+   全台 36 種蛙類觀察打勾清單 (Field Collection Checklist)
+   ========================================================= */
+
+.all-36-checklist-section {
+  position: relative;
+  background: var(--paper-bg, #fffdf8);
+  border: 2px dashed rgba(79, 138, 100, 0.35);
+  border-radius: var(--radius-md, 14px);
+  padding: 2.2rem 2rem 2.4rem;
+  margin: 3.5rem 0 3rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.checklist-tape-top {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-0.8deg);
+  background: rgba(156, 197, 161, 0.85);
+  color: #244b2f;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.28rem 1.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  clip-path: polygon(4px 0%, calc(100% - 4px) 0%, 100% 50%, calc(100% - 4px) 100%, 4px 100%, 0% 50%);
+  z-index: 2;
+}
+
+.checklist-section-header {
+  margin-bottom: 1.6rem;
+}
+
+.checklist-kicker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.checklist-stamp-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: #eef7f0;
+  color: #246333;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 120, 60, 0.2);
+}
+
+.checklist-main-title {
+  font-size: 1.65rem;
+  color: var(--text-color, #4b4238);
+  margin: 0.2rem 0 0.5rem;
+  font-weight: 800;
+}
+
+.checklist-lead-desc {
+  font-size: 0.95rem;
+  color: #5c5246;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.checklist-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.2rem 0 1.4rem;
+}
+
+.chk-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #fdfaf3;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.84rem;
+  color: #4b4238;
+}
+
+.chk-stat-pill strong {
+  color: #2d6b3a;
+  font-weight: 700;
+}
+
+.checklist-filters-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.chk-filter-btn {
+  background: #faf6ed;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #54493c;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.chk-filter-btn:hover {
+  background: #ebf5ee;
+  border-color: #9cc5a1;
+  color: #1f502c;
+}
+
+.chk-filter-btn.active {
+  background: #4f8a64;
+  color: #ffffff;
+  border-color: #4f8a64;
+  box-shadow: 0 2px 6px rgba(79, 138, 100, 0.28);
+}
+
+.checklist-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+.chk-item-card {
+  position: relative;
+  background: #ffffff;
+  border: 1.5px solid #e9e2d3;
+  border-radius: var(--radius-sm, 8px);
+  padding: 0.85rem 0.95rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.chk-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-color: #9cc5a1;
+}
+
+.chk-item-card.is-uploaded {
+  background: #f7fbf8;
+  border-color: #a4d4ad;
+  box-shadow: 0 2px 8px rgba(79, 138, 100, 0.08);
+}
+
+.chk-item-card.is-upcoming {
+  background: #fffdf5;
+  border-color: #f1dfa3;
+}
+
+.chk-item-card.is-invasive {
+  border-left: 3px solid #e06d64;
+}
+
+.chk-box-indicator {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 2px solid #cfc7b6;
+  background: #faf7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  margin-top: 2px;
+  transition: all 0.18s ease;
+}
+
+.chk-item-card.is-uploaded .chk-box-indicator {
+  background: #3fa558;
+  border-color: #2b7d40;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.chk-item-card.is-upcoming .chk-box-indicator {
+  background: #faeab0;
+  border-color: #d1b54a;
+  color: #634b07;
+}
+
+.chk-item-body {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.chk-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.chk-item-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3b3226;
+  margin: 0;
+}
+
+.chk-item-name a {
+  color: #205c2f;
+  text-decoration: none;
+}
+
+.chk-item-name a:hover {
+  text-decoration: underline;
+}
+
+.chk-order-stamp {
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: #e3f2e5;
+  color: #1f642e;
+  padding: 0.12rem 0.45rem;
+  border-radius: 4px;
+}
+
+.chk-scientific-text {
+  font-size: 0.78rem;
+  color: #7a6e60;
+  font-style: italic;
+  margin-bottom: 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chk-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.chk-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.12rem 0.45rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.chk-badge.bg-uploaded {
+  background: #def2e3;
+  color: #1a5b2c;
+  font-weight: 700;
+}
+
+.chk-badge.bg-upcoming {
+  background: #fdf3cf;
+  color: #825a0a;
+}
+
+.chk-badge.bg-pending {
+  background: #f0ece1;
+  color: #695b46;
+}
+
+.chk-badge.bg-family {
+  background: #f3efe6;
+  color: #4e4334;
+}
+
+.chk-badge.bg-endemic {
+  background: var(--tag-endemic-bg, #fef4d8);
+  color: var(--tag-endemic-text, #785514);
+}
+
+.chk-badge.bg-protect {
+  background: var(--tag-protect-bg, #def2e3);
+  color: var(--tag-protect-text, #1a5b2c);
+}
+
+.chk-badge.bg-invasive {
+  background: #fae5e3;
+  color: #8c221a;
+}
+
+.chk-desc-text {
+  font-size: 0.82rem;
+  color: #5c5042;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.chk-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: #2b6e3a;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  text-decoration: none;
+}
+
+.chk-action-link:hover {
+  text-decoration: underline;
+}
+
+.checklist-footer-nav {
+  margin-top: 1.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.btn-goto-concept {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #9cc5a1;
+  color: #1e4526;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-sm, 8px);
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.18s ease;
+}
+
+.btn-goto-concept:hover {
+  background: #4f8a64;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   Minimalist Academic Watermark (English / Alphanumeric Only)
+   CYUT · 11514611 · CHANG, PAI-HUI
+   ========================================================================== */
+
+/* 網頁最前方 (Top Header Watermark) */
+.watermark-tag.top-watermark {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #637765;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  opacity: 0.8;
+  user-select: none;
+}
+
+/* 網頁最後方 (Bottom Footer Watermark) */
+footer.site-footer {
+  text-align: center;
+  padding: 2.5rem 1rem 2rem;
+  margin-top: 2rem;
+}
+
+.footer-meta {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: #8c9b8d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+/* 右下角低調微型懸浮浮水印 (Subtle Floating Watermark) */
+.watermark-float {
+  position: fixed;
+  bottom: 8px;
+  right: 12px;
+  z-index: 99;
+  pointer-events: none;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: #8a9688;
+  opacity: 0.32;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.watermark-float:hover {
+  opacity: 0.75;
+}
